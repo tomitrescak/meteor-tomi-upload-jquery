@@ -1,27 +1,25 @@
 <template name="upload_semantic_ui">
     <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" id="contentType" value="{{ contentType }}">
-        <input type="hidden" id="contentPlatform" value="{{ platform }}">
-        <div class="field" id="filePicker-{{platform}}">
+        <div class="field uploadFilePicker">
             <div class="ui action input">
                 <input type="text" id="_attachmentName" disabled="true">
-                <label for="uploadControl-{{platform}}" class="ui icon button btn-file">
+                <label class="ui icon button btn-file">
                     <i class="attachment basic icon"></i>
-                    <input type="file" id="uploadControl-{{platform}}" data-platform="{{platform}}" accept="{{accept}}" class="uploadControl" name="attachmentName" style="display: none">
+                    <input type="file" class="upload" name="attachmentName" style="display: none" data-content-category="{{ contentType }}" accept="{{ fileTypes }}">
                 </label>
             </div>
         </div>
-        <div class="ui grid field" id="progressHolder-{{platform}}">
+        <div class="ui grid field uploadProgressHolder" style="display: none">
             <div class="column fourteen wide">
                 <div class="ui striped progress" style="position: relative">
-                    <div style="position: absolute; left: 35%" id="uploadData"></div>
-                    <div class="bar uploadProgressInfo" id="uploadInfo"></div>
+                    <div style="position: absolute; left: 35%" class="uploadProgressLabel"></div>
+                    <div class="bar uploadProgressBar"></div>
                 </div>
             </div>
             <div class="column one wide fluid">
-                <div class="ui icon red small button cancelUpload" id="cancelUpload-{{platform}}" data-platform="{{platform}}" >
+                <button class="ui icon red small button cancelUpload" id="cancelUpload">
                     <i class="stop icon"></i>
-                </div>
+                </button>
             </div>
         </div>
     </form>

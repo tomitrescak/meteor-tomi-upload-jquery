@@ -1,10 +1,9 @@
-Template['upload_semantic_ui'].events({
+Template['upload_bootstrap'].events({
   'click .cancelUpload': function (e) {
     Uploader.cancelUpload(e);
   }
 });
 
-Template['upload_semantic_ui'].rendered = function () {
+Template['upload_bootstrap'].rendered = function () {
   Uploader.render.call(this);
 };
-

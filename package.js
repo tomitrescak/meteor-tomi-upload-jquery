@@ -16,7 +16,13 @@ Package.onUse(function(api) {
     'lib/jquery.fileupload.js'
   ], ['client']);
 
-  api.addFiles(['upload_semantic_ui.html', 'upload_semantic_ui.js'], 'client');
+  api.addFiles([
+    'upload_semantic_ui.html',
+    'upload_semantic_ui.js',
+    'bootstrap.css',
+    'upload_bootstrap.html',
+    'upload_bootstrap.js',
+    'uploader.js'], 'client');
 });
 
 //Package.onTest(function(api) {

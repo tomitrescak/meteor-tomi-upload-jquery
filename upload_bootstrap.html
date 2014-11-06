@@ -1,0 +1,18 @@
+<template name="upload_bootstrap">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="input-group uploadFilePicker">
+            <!-- The fileinput-button span is used to style the file input field as button -->
+            <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Browse&hellip; <input type="file" class="upload">
+                    </span>
+                </span>
+            <input type="text" class="form-control" readonly>
+            <!-- The global progress bar -->
+        </div>
+        <div id="progress" class="progress uploadProgressHolder" style="position: relative;">
+            <div style="position: absolute; left: 35%; color: #ffffff" class="uploadProgressLabel">sdssdsd</div>
+            <div class="progress-bar progress-bar-success uploadProgressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </form>
+</template>
