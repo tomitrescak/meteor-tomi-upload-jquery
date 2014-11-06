@@ -23,6 +23,8 @@ Package.onUse(function(api) {
     'upload_bootstrap.html',
     'upload_bootstrap.js',
     'uploader.js'], 'client');
+
+  api.export('Uploader', 'client');
 });
 
 //Package.onTest(function(api) {
