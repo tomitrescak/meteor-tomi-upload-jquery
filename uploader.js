@@ -1,4 +1,5 @@
 Uploader = {
+  info: new ReactiveVar,
   uploadUrl: '/upload',
   cancelUpload: function(e) {
     e.preventDefault();
@@ -18,6 +19,9 @@ Uploader = {
     data.progressBar = this.$('.uploadProgressBar');
     data.progressLabel = this.$('.uploadProgressLabel');
 
+    // init info array
+    Uploader.info.set([]);
+
     // remember on form the data we are sending
     this.find('form').uploadData = data;
 
@@ -31,6 +35,9 @@ Uploader = {
         data.formData = {
           contentType: uploadData.contentType
         };
+
+        // set the info variable
+        Uploader.info.set(data.files);
 
         // modify controls
         uploadData.picker.hide('slow');
