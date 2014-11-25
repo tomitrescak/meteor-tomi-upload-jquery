@@ -1,8 +1,8 @@
 Package.describe({
   name: 'tomi:upload-jquery',
   summary: 'Client template for uploads using "jquery-file-upload" from blueimp',
-  version: '1.0.1',
-  git: 'https://github.com/tomitrescak/meteor-tomi-upload-jquery.git'
+  version: '1.0.2',
+  git: 'https://github.com/KrishnaPG/meteor-tomi-upload-jquery.git'
 });
 
 Package.onUse(function(api) {
@@ -13,7 +13,11 @@ Package.onUse(function(api) {
   api.addFiles([
     'lib/vendor/jquery.ui.widget.js',
     'lib/jquery.iframe-transport.js',
-    'lib/jquery.fileupload.js'
+    'lib/jquery.fileupload.js',
+	'lib/css/jquery.fileupload.css',
+	'lib/css/jquery.fileupload-ui.css',
+	'lib/img/loading.gif', 
+	'lib/img/progressbar.gif'
   ], ['client']);
 
   api.addFiles([

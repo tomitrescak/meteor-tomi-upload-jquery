@@ -1,18 +1,76 @@
-<template name="upload_bootstrap">
+<template name="template_upload_single">
     <form method="POST" enctype="multipart/form-data">
-        <div class="input-group uploadFilePicker">
-            <!-- The fileinput-button span is used to style the file input field as button -->
-            <span class="input-group-btn">
-                    <span class="btn btn-primary btn-file">
-                        Browse&hellip; <input type="file" class="upload">
-                    </span>
-                </span>
-            <input type="text" class="form-control" readonly>
-            <!-- The global progress bar -->
-        </div>
-        <div id="progress" class="progress uploadProgressHolder" style="position: relative;">
-            <div style="position: absolute; left: 35%; color: #ffffff" class="uploadProgressLabel">sdssdsd</div>
-            <div class="progress-bar progress-bar-success uploadProgressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
+			<div class="input-group uploadFilePicker">
+				<!-- The fileinput-button span is used to style the file input field as button -->
+				<span class="input-group-btn">
+						<span class="btn btn-primary btn-file">
+							Browse&hellip; <input type="file" class="upload" multiple="{{multiple}}"  data-content-category="{{ contentType }}" accept="{{ fileTypes }}">
+						</span>
+					</span>
+				<input type="text" class="form-control" readonly>
+				<!-- The global progress bar -->
+			</div>
+			<div class="uploadProgressHolder row" style="display: none">
+				<div id="progress" class="progress col-xs-10" style="position: relative;">
+					<div style="position: absolute; left: 35%; color: #ffffff" class="uploadProgressLabel">Progress Status</div>
+					<div class="progress-bar progress-bar-success uploadProgressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+				<div class="col-xs-2">
+					<button class="ui icon red small button cancelUpload" id="cancelUpload">
+						<i class="stop icon"></i>
+					</button>
+				</div>
+			</div>
     </form>
+</template>
+
+<template name="template_upload_multiple">
+	<form method="POST" enctype="multipart/form-data">
+		<!-- The fileupload-buttonbar contains add/delete and start/cancel buttons -->
+        <div class="row fileupload-buttonbar">
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="files[]" multiple="{{multiple}}" data-content-category="{{ contentType }}" accept="{{ fileTypes }}">
+                </span>
+                <button type="submit" class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start upload</span>
+                </button>
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel upload</span>
+                </button>
+                <button type="button" class="btn btn-danger delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" class="toggle">
+                <!-- The global file processing state -->
+                <span class="fileupload-process"></span>
+            </div>
+            <!-- The global progress state -->
+            <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- The table listing the files available for upload/download -->
+        <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+	</form>
+</template>
+
+<template name="upload_bootstrap">
+	<h3>{{this.heading}}</h3> <!--TODO: Use CSS customizable tag instead of hardcoded h3 here-->
+	{{#if this.multiple}}
+		{{> template_upload_multiple}}
+	{{else}}
+		{{> template_upload_single}}
+	{{/if}}
 </template>
