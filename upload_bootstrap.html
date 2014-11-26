@@ -4,7 +4,7 @@
 				<!-- The fileinput-button span is used to style the file input field as button -->
 				<span class="input-group-btn">
 						<span class="btn btn-primary btn-file">
-							Browse&hellip; <input type="file" class="upload" multiple="{{multiple}}"  data-content-category="{{ contentType }}" accept="{{ fileTypes }}">
+							Browse&hellip; <input type="file" class="jqUploadclass" multiple="{{multiple}}"  data-content-category="{{ contentType }}" accept="{{ fileTypes }}">
 						</span>
 					</span>
 				<input type="text" class="form-control" readonly>
@@ -33,7 +33,7 @@
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
                     <span>Add files...</span>
-                    <input type="file" name="files[]" multiple="{{multiple}}" data-content-category="{{ contentType }}" accept="{{ fileTypes }}">
+                    <input type="file" name="files[]" class="jqUploadclass" multiple="{{multiple}}" data-content-category="{{ contentType }}" accept="{{ fileTypes }}">
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
@@ -62,7 +62,9 @@
             </div>
         </div>
         <!-- The table listing the files available for upload/download -->
-        <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+        <table role="presentation" class="table table-striped">
+			<tbody class="files">{{> template_file_upload_rows}}</tbody>
+		</table>
 	</form>
 </template>
 
@@ -73,4 +75,45 @@
 	{{else}}
 		{{> template_upload_single}}
 	{{/if}}
+</template>
+
+<template name="template_file_upload_rows">
+	{{#each file_upload_list}}
+		<tr class="template-upload fade">
+			<td>
+				<span class="preview"></span>
+			</td>
+			<td>
+				<p class="name">{{name}}</p>
+				<ul>
+					<li>Name: {{ name }}</li>
+					<li>Size: {{ size }} B</li>
+					<li>Type: {{ type }}</li>
+					<li>Last Modified: {{ lastModified }}</li>
+					<li>Last Modified Date: {{ lastModifiedDate }}</li>
+				</ul>
+				<strong class="error text-danger"></strong>
+			</td>
+			<td>
+				<p class="size">Processing...</p>
+				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+					<div class="progress-bar progress-bar-success" style="width:0%;"></div>
+				</div>
+			</td>
+			<!--td>
+				{% if (!i && !o.options.autoUpload) { %}
+					<button class="btn btn-primary start" disabled>
+						<i class="glyphicon glyphicon-upload"></i>
+						<span>Start</span>
+					</button>
+				{% } %}
+				{% if (!i) { %}
+					<button class="btn btn-warning cancel">
+						<i class="glyphicon glyphicon-ban-circle"></i>
+						<span>Cancel</span>
+					</button>
+				{% } %}
+			</td-->
+		</tr>
+	{{/each}}
 </template>
