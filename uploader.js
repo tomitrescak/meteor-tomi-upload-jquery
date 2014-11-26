@@ -1,4 +1,5 @@
 Uploader = {
+	info: new ReactiveVar,
 	uploadUrl: '/upload',
 	cancelUpload: function (e) {
 		e.preventDefault();
@@ -16,6 +17,9 @@ Uploader = {
 		template_context.progressBar = this.$('.uploadProgressBar');
 		template_context.progressLabel = this.$('.uploadProgressLabel');
 
+		// init info array
+		Uploader.info.set([]);
+
 		// attach the context to the form object (so that we can access it in the callbacks such as add() etc.)
 		this.find('form').upload_context = template_context;
 
@@ -32,6 +36,10 @@ Uploader = {
                     data.context = $('<p/>').text('Uploading...').replaceAll($(this));
                     data.submit();                
 				});
+				
+				// set the info variable
+				Uploader.info.set(data.files);
+
 				// modify controls
 				upload_context.picker.hide('slow');
 				upload_context.progress.show('slow');
