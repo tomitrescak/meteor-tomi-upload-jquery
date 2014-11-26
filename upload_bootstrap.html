@@ -79,41 +79,45 @@
 
 <template name="template_file_upload_rows">
 	{{#each file_upload_list}}
-		<tr class="template-upload fade">
-			<td>
-				<span class="preview"></span>
-			</td>
-			<td>
-				<p class="name">{{name}}</p>
-				<ul>
+		{{> file_upload_row}}
+	{{/each}}
+</template>
+
+<template name="file_upload_row">
+	<tr class="template-upload"  style="display: none">
+		<td>
+			<span class="preview"></span>
+		</td>
+		<td>
+			<p class="name">{{name}}</p>
+				<ul class="uploadFileInfo">
 					<li>Name: {{ name }}</li>
 					<li>Size: {{ size }} B</li>
 					<li>Type: {{ type }}</li>
 					<li>Last Modified: {{ lastModified }}</li>
 					<li>Last Modified Date: {{ lastModifiedDate }}</li>
 				</ul>
-				<strong class="error text-danger"></strong>
-			</td>
-			<td>
-				<p class="size">Processing...</p>
-				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-					<div class="progress-bar progress-bar-success" style="width:0%;"></div>
-				</div>
-			</td>
-			<!--td>
-				{% if (!i && !o.options.autoUpload) { %}
-					<button class="btn btn-primary start" disabled>
-						<i class="glyphicon glyphicon-upload"></i>
-						<span>Start</span>
-					</button>
-				{% } %}
-				{% if (!i) { %}
-					<button class="btn btn-warning cancel">
-						<i class="glyphicon glyphicon-ban-circle"></i>
-						<span>Cancel</span>
-					</button>
-				{% } %}
-			</td-->
-		</tr>
-	{{/each}}
+			<strong class="error text-danger"></strong>
+		</td>
+		<td>
+			<p class="size">Processing...</p>
+			<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+				<div class="progress-bar progress-bar-success" style="width:0%;"></div>
+			</div>
+		</td>
+		<td> 
+			<!--{% if (!i && !o.options.autoUpload) { %}-->
+				<button class="btn btn-primary start" disabled>
+					<i class="glyphicon glyphicon-upload"></i>
+					<span>Start</span>
+				</button>
+			<!--{% } %}
+			{% if (!i) { %}-->
+				<button class="btn btn-warning cancel">
+					<i class="glyphicon glyphicon-ban-circle"></i>
+					<span>Cancel</span>
+				</button>
+			<!--{% } %}-->
+		</td>
+	</tr> 
 </template>

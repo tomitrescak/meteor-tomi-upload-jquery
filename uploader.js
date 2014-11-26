@@ -36,37 +36,34 @@ Uploader = {
 				var upload_context = data.form[0].upload_context;
 				data.formData = { contentType: upload_context.contentType };
 
-				var queuedFiles = template_context.queue.get();
-				queuedFiles.push(data.files);
-				template_context.queue.set(queuedFiles);
-				// tie an element node for the life cycle of upload
-				// data.context = $(data.form[0]).find('.files').append("<tr><td>" + data.files[0] + "</td></tr>");
+				if (template_context.queue != null) { // if we are queuing (and not uploading immediately)					
+					// update the queue collection, so that the ui gets updated
+					$.each(data.files, function (index, file) {
+						template_context.queue.insert(file);
+					});
+				}
+				else { // we are uploading immediately 
+					// set the info variable
+					Uploader.info.set(data.files);
 
-				//$('<button/>').text('Upload').appendTo(document.body).click(function (){				
-				//	data.context = $('<p/>').text('Uploading...').replaceAll($(this));
-				//	data.submit();
-				//});
-
-				// set the info variable
-				Uploader.info.set(data.files);
-
-				// modify controls
-				upload_context.picker.hide('slow');
-				upload_context.progress.show('slow');
-				// Submit the data for upload with ajax; Ref: http://api.jquery.com/jQuery.ajax/#jqXHR
-				//upload_context.submit_jqXHR = data.submit()
-				//	.done(function (data, textStatus, jqXHR) {
-				//		console.log('data.sumbit.done: textStatus= ' + textStatus);
-				//	})
-				//	.fail(function (jqXHR, textStatus, errorThrown) {
-				//		console.log('data.sumbit.fail: ' + jqXHR.responseText + ' ' + jqXHR.status + ' ' + jqXHR.statusText);
-				//	})
-				//	.always(function (data, textStatus, jqXHR) {
-				//		console.log('data.sumbit.always:  textStatus= ' + textStatus);
-				//		// reset the ui						
-				//		upload_context.picker.show('slow');
-				//		upload_context.progress.hide('slow');
-				//	});
+					// modify controls
+					upload_context.picker.hide('slow');
+					upload_context.progress.show('slow');
+					// Submit the data for upload with ajax; Ref: http://api.jquery.com/jQuery.ajax/#jqXHR
+					upload_context.submit_jqXHR = data.submit()
+						.done(function (data, textStatus, jqXHR) {
+							console.log('data.sumbit.done: textStatus= ' + textStatus);
+						})
+						.fail(function (jqXHR, textStatus, errorThrown) {
+							console.log('data.sumbit.fail: ' + jqXHR.responseText + ' ' + jqXHR.status + ' ' + jqXHR.statusText);
+						})
+						.always(function (data, textStatus, jqXHR) {
+							console.log('data.sumbit.always:  textStatus= ' + textStatus);
+							// reset the ui						
+							upload_context.picker.show('slow');
+							upload_context.progress.hide('slow');
+						});
+				}
 			}, // end of add callback handler
 			done: function (e, data) {
 				console.log('render.done ');
