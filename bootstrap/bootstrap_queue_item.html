@@ -1,0 +1,18 @@
+<template name="bootstrap_queue_item">
+    <div class="uploadPanel" style="margin-top: 6px">
+        <div class="form-control upload-control">
+            <div class="progress-bar progress-bar-success progress-bar-striped"
+                 role="progressbar"
+                 aria-valuemin="0"
+                 aria-valuemax="100" style="{{ progress }}">
+                &nbsp;
+            </div>
+            <div class="progress-label">
+                {{{ infoLabel }}}
+            </div>
+        </div>
+
+        {{> bootstrap_buttons state=buttonState uploadContext=../.. name=this.item.name}}
+    </div>
+</template>
+

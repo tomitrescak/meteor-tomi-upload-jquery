@@ -1,0 +1,48 @@
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.uploadPanel {
+    display: table;
+}
+
+.uploadPanel .btn {
+    display: table-cell; width: 1%;
+}
+
+.uploadPanel .upload-control:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.uploadPanel .upload-control:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.uploadPanel .form-control {
+    border-radius: 0px;
+    padding: 0px;
+    position: relative
+}
+
+.progress-label {
+    position: absolute;
+    width: 100%;
+    top: 6px;
+    text-align: center
+}

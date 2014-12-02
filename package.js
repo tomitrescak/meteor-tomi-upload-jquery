@@ -13,15 +13,23 @@ Package.onUse(function(api) {
   api.addFiles([
     'lib/vendor/jquery.ui.widget.js',
     'lib/jquery.iframe-transport.js',
-    'lib/jquery.fileupload.js'
+    'lib/jquery.fileupload.js',
+    'lib/css/jquery.fileupload.css',
+    'lib/css/jquery.fileupload-ui.css',
+    'lib/img/loading.gif',
+    'lib/img/progressbar.gif'
   ], ['client']);
 
   api.addFiles([
     'upload_semantic_ui.html',
     'upload_semantic_ui.js',
-    'bootstrap.css',
-    'upload_bootstrap.html',
-    'upload_bootstrap.js',
+    'bootstrap/bootstrap.css',
+    'bootstrap/bootstrap_buttons.html',
+    'bootstrap/bootstrap_buttons.js',
+    'bootstrap/bootstrap_queue_item.html',
+    'bootstrap/bootstrap_queue_item.js',
+    'bootstrap/upload_bootstrap.html',
+    'bootstrap/upload_bootstrap.js',
     'uploader.js'], 'client');
 
   api.export('Uploader', 'client');
