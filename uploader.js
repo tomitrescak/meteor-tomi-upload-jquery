@@ -1,5 +1,23 @@
 Uploader = {
 	uploadUrl: '/upload',
+	createName: function(templateContext) {
+		if (templateContext.queue.find().count() == 1) {
+			var file = templateContext.queue.findOne();
+			templateContext.info.set(file);
+		} else {
+			// calculate size
+			var size = 0;
+			$.each(templateContext.uploadData, function (index, data) {
+				size += data.files[0].size;
+			});
+
+			var file = {
+				name: templateContext.queue.find().count() + ' files',
+				size: size
+			}
+			templateContext.info.set(file);
+		}
+	},
 	startUpload: function(e, name) {
 		e.preventDefault();
 
@@ -29,9 +47,21 @@ Uploader = {
 	removeFromQueue: function(e, name) {
 		e.preventDefault();
 
-		// remove from visual
+		// remove from visual queue
+		this.queue.remove({name: name});
 
 		// remove from data queue
+		var that = this;
+		$.each(this.uploadData, function (index, data) {
+			// skip all with different name
+			if (name && data.files[0].name === name) {
+				that.uploadData.splice(index, 1);
+				return false;
+			}
+		});
+
+		// update name
+		Uploader.createName(this);
 	},
 	cancelUpload: function (e, name) {
 		e.preventDefault();
@@ -84,22 +114,7 @@ Uploader = {
 				});
 
 				// say name
-				if (templateContext.queue.find().count() == 1) {
-					var file = templateContext.queue.findOne();
-					templateContext.info.set(file);
-				} else {
-					// calculate size
-					var size = 0;
-					$.each(templateContext.uploadData, function (index, data) {
-						size += data.files[0].size;
-					});
-
-					var file = {
-						name: templateContext.queue.find().count() + ' files',
-						size: size
-					}
-					templateContext.info.set(file);
-				}
+				Uploader.createName(templateContext);
 
 				// start upload
 				if (!templateContext.startOnClick) {

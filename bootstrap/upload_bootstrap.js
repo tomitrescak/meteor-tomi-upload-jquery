@@ -2,7 +2,7 @@
 Template['upload_bootstrap'].created = function () {
   this.data.queue = new Meteor.Collection(null); // client local collection per instance
   this.data.info = new ReactiveVar
-  this.data.fileInfos = [];
+  this.data.fileInfos = {};
   this.data.globalInfo = new ReactiveVar({running: false, progress: 0, bitrate: 0});
 };
 
@@ -33,6 +33,9 @@ Template['upload_bootstrap'].helpers({
       },
       'waiting': function () {
         return that.globalInfo.get().progress !== 100;
+      },
+      'removeFromQueue': function() {
+        return false;
       }
     }
   },
