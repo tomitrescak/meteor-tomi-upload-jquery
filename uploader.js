@@ -1,19 +1,14 @@
 Uploader = {
 	uploadUrl: '/upload',
 	createName: function(templateContext) {
-		if (templateContext.queue.find().count() == 1) {
-			var file = templateContext.queue.findOne();
+		if (templateContext.queue.length == 1) {
+			var file = templateContext.queue[0];
 			templateContext.info.set(file);
 		} else {
 			// calculate size
-			var size = 0;
-			$.each(templateContext.uploadData, function (index, data) {
-				size += data.files[0].size;
-			});
-
 			var file = {
-				name: templateContext.queue.find().count() + ' files',
-				size: size
+				name: templateContext.queue.length + ' files',
+				size: templateContext.queue.size
 			}
 			templateContext.info.set(file);
 		}
@@ -21,12 +16,13 @@ Uploader = {
 	startUpload: function(e, name) {
 		e.preventDefault();
 
-		if (this.queue.find().count() == 0) return;
+		if (this.queue.length == 0) return;
 
 		var that = this;
 
-		$.each(this.uploadData, function (index, data) {
+		$.each(this.queue, function (index, queueItem) {
 
+			var data = queueItem.data;
 			if (name && data.files[0].name !== name) return true;
 
 			data.jqXHR = data.submit()
@@ -47,18 +43,18 @@ Uploader = {
 	removeFromQueue: function(e, name) {
 		e.preventDefault();
 
-		// remove from visual queue
-		this.queue.remove({name: name});
-
 		// remove from data queue
 		var that = this;
-		$.each(this.uploadData, function (index, data) {
+		$.each(this.queue, function (index, item) {
 			// skip all with different name
-			if (name && data.files[0].name === name) {
-				that.uploadData.splice(index, 1);
+			if (item.name === name) {
+				that.queue.splice(index, 1);
 				return false;
 			}
 		});
+
+		// set the queueView
+		this.queueView.set(this.queue);
 
 		// update name
 		Uploader.createName(this);
@@ -66,19 +62,15 @@ Uploader = {
 	cancelUpload: function (e, name) {
 		e.preventDefault();
 
-		var fis = this.fileInfos;
-
-		$.each(this.uploadData, function (index, data) {
+		$.each(this.queue, function (index, queueItem) {
 			// skip all with different name
 			if (name && data.files[0].name !== name) return true;
 
 			// cancel upload
-			data.jqXHR.abort();
+			queueItem.data.jqXHR.abort();
 
-			// set info
-			if (fis[name]) {
-				fis[name].set({running: false, cancelled: true, progress: 0, bitrate: 0});
-			}
+			// set status to redraw interface
+			queueItem.status.set({running: false, cancelled: true, progress: 0, bitrate: 0});
 		});
 
 		// mark global as cancelled
@@ -106,22 +98,23 @@ Uploader = {
 				console.log('render.add ');
 
 				// add data to context, this is used to submit the added data and start upload
-				templateContext.uploadData.push(data);
+
 
 				// update the queue collection, so that the ui gets updated
 				$.each(data.files, function (index, file) {
-					templateContext.queue.insert(file);
+					var item = file;
+					item.data = data;
+					templateContext.queue[file.name] = new ReactiveVar({running: false, progress: 0});
+					templateContext.queue.push(item);
+					templateContext.queue.size += parseInt(file.size);
 				});
 
 				// say name
 				Uploader.createName(templateContext);
 
-				// start upload
-				if (!templateContext.startOnClick) {
-					$.each(templateContext.uploadData, function (index, data) {
-						data.submit();
-					});
-				}
+				// set template context
+				templateContext.queueView.set(templateContext.queue);
+
 			}, // end of add callback handler
 			done: function (e, data) {
 				console.log('render.done ');
@@ -137,7 +130,7 @@ Uploader = {
 			},
 			progress: function (e, data) {
 				// file progress is displayed only when single file is uploaded
-				var fi = templateContext.fileInfos[data.files[0].name];
+				var fi = templateContext.queue[data.files[0].name];
 				if (fi) {
 					fi.set({
 						started: true,
@@ -159,8 +152,8 @@ Uploader = {
 			},
 			change: function (e, data) { // called when input selection changes (file selected)
 				// clear the queue, this is used to visualise all the data
-				templateContext.uploadData = [];
-				templateContext.queue.remove({});
+				templateContext.queue = [];
+				templateContext.queue.size = 0;
 				templateContext.progressBar.css('width', '0%');
 				templateContext.globalInfo.set({running: false, progress: 0});
 

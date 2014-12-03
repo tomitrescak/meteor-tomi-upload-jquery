@@ -9,6 +9,7 @@ Follow [these instructions](https://github.com/tomitrescak/meteor-uploads) to wr
 
 ####Version Info
 
+* 1.0.3 - Complete redesign, Allowing upload of multiple files, supporting only Bootstrap
 * 1.0.2 - Added reactive variables for the uploaded file info
 * 1.0.1 - Added Semantic.ui support
 * 1.0.0 - Initial Version with Bootstrap support

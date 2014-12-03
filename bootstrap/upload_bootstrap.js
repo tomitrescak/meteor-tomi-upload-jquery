@@ -1,8 +1,12 @@
 // each upload_multiple template instance holds its own local collection of files list
 Template['upload_bootstrap'].created = function () {
-  this.data.queue = new Meteor.Collection(null); // client local collection per instance
+  // this is used to view the queue in the interface
+  this.data.queueView = new ReactiveVar([]);
+  // this holds all the data about the queue
+  this.data.queue = [];
+  // info about the global item being processed
   this.data.info = new ReactiveVar
-  this.data.fileInfos = {};
+  // info about global progress
   this.data.globalInfo = new ReactiveVar({running: false, progress: 0, bitrate: 0});
 };
 
@@ -40,10 +44,10 @@ Template['upload_bootstrap'].helpers({
     }
   },
   'queueItems': function() {
-    return this.queue.find();
+    return this.queueView.get();
   },
   'showQueue': function() {
-    return this.queue.find().count() > 1;
+    return this.queueView.get().length > 1;
   }
 });
 
