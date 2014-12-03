@@ -1,12 +1,3 @@
-Template['bootstrap_queue_item'].events({
-  'click .cancel': function (e) {
-    Uploader.cancelUpload.call(this.parent, e, this.item.name);
-  },
-  'click .startItem': function (e) {
-    Uploader.startUpload.call(this.parent, e, this.item.name);
-  }
-});
-
 Template['bootstrap_queue_item'].helpers({
   'infoLabel': function() {
     var progress = this.parent.queue[this.item.name].get();
