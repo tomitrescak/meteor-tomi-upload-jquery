@@ -62,15 +62,18 @@ Uploader = {
 	cancelUpload: function (e, name) {
 		e.preventDefault();
 
+		var that = this;
 		$.each(this.queue, function (index, queueItem) {
 			// skip all with different name
-			if (name && data.files[0].name !== name) return true;
+			if (name && queueItem.name !== name) return true;
 
-			// cancel upload
-			queueItem.data.jqXHR.abort();
+			// cancel upload of non completed files
+			if (that.queue[queueItem.name].get().progress !== 100) {
+				queueItem.data.jqXHR.abort();
 
-			// set status to redraw interface
-			queueItem.status.set({running: false, cancelled: true, progress: 0, bitrate: 0});
+				// set status to redraw interface
+				that.queue[queueItem.name].set({running: false, cancelled: true, progress: 0, bitrate: 0});
+			}
 		});
 
 		// mark global as cancelled
@@ -133,7 +136,7 @@ Uploader = {
 				var fi = templateContext.queue[data.files[0].name];
 				if (fi) {
 					fi.set({
-						started: true,
+						running: true,
 						progress: parseInt(data.loaded / data.total * 100, 10),
 						bitrate: data.bitrate
 					});
