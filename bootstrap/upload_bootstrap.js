@@ -11,6 +11,14 @@ Template['upload_bootstrap'].created = function () {
 };
 
 Template['upload_bootstrap'].helpers({
+  'submitData': function() {
+    if (this.formData) {
+      this.formData['contentType'] = this.contentType;
+    } else {
+      this.formData = { contentType: this.contentType };
+    }
+    return JSON.stringify(this.formData);
+  },
   'infoLabel': function() {
     var progress = this.globalInfo.get();
 
