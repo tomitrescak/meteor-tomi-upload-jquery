@@ -1,13 +1,6 @@
 // each upload_multiple template instance holds its own local collection of files list
 Template['upload_bootstrap'].created = function () {
-  // this is used to view the queue in the interface
-  this.data.queueView = new ReactiveVar([]);
-  // this holds all the data about the queue
-  this.data.queue = [];
-  // info about the global item being processed
-  this.data.info = new ReactiveVar
-  // info about global progress
-  this.data.globalInfo = new ReactiveVar({running: false, progress: 0, bitrate: 0});
+  Uploader.init.call(this);
 };
 
 Template['upload_bootstrap'].helpers({

@@ -1,0 +1,58 @@
+// each upload_multiple template instance holds its own local collection of files list
+Template['dropzone'].created = function () {
+  // start automatically on drop
+  this.data.autoStart = true;
+
+  // init the control
+  Uploader.init.call(this);
+};
+
+// each upload_multiple template instance holds its own local collection of files list
+Template['dropzone'].helpers({
+  'infoLabel': function() {
+    var progress = this.globalInfo.get();
+
+    // we may have not yet selected a file
+    if (progress.progress == 0 || progress.progress == 100) {
+      return "Drop files here";
+    }
+    return progress.progress + "%";
+  }
+});
+
+Template['dropzone'].rendered = function () {
+  // initialise the uploader area
+  Uploader.render.call(this);
+
+  // allow visual clues for drag and drop area
+  $(document).bind('dragover', function (e) {
+    var dropZone = $('.jqDropZone'),
+      foundDropzone,
+      timeout = window.dropZoneTimeout;
+    if (!timeout) {
+      dropZone.addClass('in');
+    }
+    else {
+      clearTimeout(timeout);
+    }
+    var found = false,
+      node = e.target;
+    do {
+      if ($(node).hasClass('jqDropZone')) {
+        found = true;
+        foundDropzone = $(node);
+        break;
+      }
+      node = node.parentNode;
+    } while (node != null);
+
+    dropZone.removeClass('in hover');
+    if (found) {
+      foundDropzone.addClass('hover');
+    }
+    window.dropZoneTimeout = setTimeout(function () {
+      window.dropZoneTimeout = null;
+      dropZone.removeClass('in hover');
+    }, 100);
+  });
+};

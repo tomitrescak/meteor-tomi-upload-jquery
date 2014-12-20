@@ -13,8 +13,13 @@ Uploader = {
 			templateContext.info.set(file);
 		}
 	},
+	/**
+	 * Starts upload
+	 * @param e
+	 * @param {string} name Name of the file in the queue that we want to upload
+	 */
 	startUpload: function(e, name) {
-		e.preventDefault();
+		if (e) e.preventDefault();
 
 		if (this.queue.length == 0) return;
 
@@ -81,12 +86,23 @@ Uploader = {
 			this.globalInfo.set({running: false, cancelled: true, progress: 0, bitrate: 0})
 		}
 	},
+	init: function() {
+		// this is used to view the queue in the interface
+		this.data.queueView = new ReactiveVar([]);
+		// this holds all the data about the queue
+		this.data.queue = [];
+		// info about the global item being processed
+		this.data.info = new ReactiveVar;
+		// info about global progress
+		this.data.globalInfo = new ReactiveVar({running: false, progress: 0, bitrate: 0});
+	},
 	render: function () {
 		// this.data holds the template context (arguments supplied to the template in HTML)
 		var templateContext = this.data;
 		templateContext.progressBar = this.$('.progress-bar');
 		templateContext.progressLabel = this.$('.progress-label');
 		templateContext.uploadControl = this.$('.jqUploadclass');
+		templateContext.dropZone = this.$('.jqDropZone');
 
 
 		// attach the context to the form object (so that we can access it in the callbacks such as add() etc.)
@@ -97,11 +113,9 @@ Uploader = {
 		templateContext.uploadControl.fileupload({
 			url: Uploader.uploadUrl,
 			dataType: 'json',
+			dropZone: templateContext.dropZone,
 			add: function (e, data) {
 				console.log('render.add ');
-
-				// add data to context, this is used to submit the added data and start upload
-
 
 				// update the queue collection, so that the ui gets updated
 				$.each(data.files, function (index, file) {
@@ -117,6 +131,11 @@ Uploader = {
 
 				// set template context
 				templateContext.queueView.set(templateContext.queue);
+
+				// we can automatically start the upload
+				if (templateContext.autoStart) {
+					Uploader.startUpload.call(templateContext);
+				}
 
 			}, // end of add callback handler
 			done: function (e, data) {

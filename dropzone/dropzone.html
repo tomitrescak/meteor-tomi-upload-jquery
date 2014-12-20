@@ -1,0 +1,12 @@
+<template name="dropzone">
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file"
+               class="jqUploadclass"
+               multiple="true"
+               data-content-category="{{ contentType }}"
+               data-form-data='{{ submitData }}'
+               accept="{{ fileTypes }}"
+                style="display: none">
+        <div class="jqDropZone fade">{{{ infoLabel }}}</div>
+    </form>
+</template>

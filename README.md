@@ -2,10 +2,12 @@ This is a client interface package for the [Meteor Uploads](https://github.com/t
 
 Use via {{> upload_bootstrap}}
 
-Follow [these instructions](https://github.com/tomitrescak/meteor-uploads) to write your own ui.
+For the full documentation and instructions on use go to [https://github.com/tomitrescak/meteor-uploads](https://github.com/tomitrescak/meteor-uploads).
 
 ####Version Info
 
+* 1.1.0 - Added the drag and drop zone support
+* 1.0.7 - Bugfixes
 * 1.0.6 - Added possibility to add extra form elements
 * 1.0.5 - Bugfixes
 * 1.0.4 - Bugfixes

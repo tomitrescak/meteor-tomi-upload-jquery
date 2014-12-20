@@ -1,7 +1,7 @@
 Package.describe({
   name: 'tomi:upload-jquery',
   summary: 'Client template for uploads using "jquery-file-upload" from blueimp',
-  version: '1.0.6',
+  version: '1.1.0',
   git: 'https://github.com/tomitrescak/meteor-tomi-upload-jquery.git'
 });
 
@@ -30,6 +30,8 @@ Package.onUse(function(api) {
     'bootstrap/bootstrap_queue_item.js',
     'bootstrap/upload_bootstrap.html',
     'bootstrap/upload_bootstrap.js',
+    'dropzone/dropzone.html',
+    'dropzone/dropzone.js',
     'uploader.js'], 'client');
 
   api.export('Uploader', 'client');
