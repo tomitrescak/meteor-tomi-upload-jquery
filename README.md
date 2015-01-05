@@ -6,6 +6,7 @@ For the full documentation and instructions on use go to [https://github.com/tom
 
 ####Version Info
 
+* 1.1.1 - Bugfixed 'multiple' parameter
 * 1.1.0 - Added the drag and drop zone support
 * 1.0.7 - Bugfixes
 * 1.0.6 - Added possibility to add extra form elements
