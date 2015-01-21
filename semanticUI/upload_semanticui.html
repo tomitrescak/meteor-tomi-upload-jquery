@@ -1,0 +1,44 @@
+<template name="upload_semanticUI">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="uploadPanel">
+            <!-- The fileinput-button span is used to style the file input field as button -->
+
+            <div class="ui icon button btn-file leftButton upload-control">
+                Browse&hellip; <input type="file"
+                                      class="jqUploadclass"
+                                      multiple="{{ multiple }}"
+                                      data-content-category="{{ contentType }}"
+                                      data-form-data='{{ submitData }}'
+                                      accept="{{ fileTypes }}">
+            </div>
+
+            <div style="display: table-cell; width: 100%; vertical-align: top">
+                <div class="ui progress" style="margin-right: 3px">
+                    <div class="bar progress-bar"
+                         role="progressbar"
+                         style="{{ progress }}">
+                        &nbsp;
+                    </div>
+                    <div class="label progress-label">
+                        {{{ infoLabel }}}
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: table-cell; vertical-align: top; width: 100px">
+                {{> semanticUI_buttons state=buttonState uploadContext=uploadContext}}
+            </div>
+        </div>
+
+        {{#if showQueue }}
+            <div class="panel panel-default" style="margin-top: 1px; background: #efefef">
+                <div class="panel-body">
+                    {{#each queueItems }}
+                        {{> bootstrap_queue_item item=this parent=.. }}
+                    {{/each}}
+                </div>
+            </div>
+        {{/if}}
+    </form>
+</template>
+

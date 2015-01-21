@@ -40,9 +40,23 @@
     position: relative
 }
 
+.uploadPanel .progress{
+    border-radius: 0px;
+}
+
 .progress-label {
     position: absolute;
     width: 100%;
     top: 6px;
     text-align: center
+}
+
+.leftButton,
+.rightButton {
+    margin: 0px;
+    display: table-cell;
+}
+
+.rightButton {
+    width: 130px;
 }

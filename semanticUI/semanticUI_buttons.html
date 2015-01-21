@@ -1,0 +1,34 @@
+<template name="semanticUI_buttons">
+    {{#if idle}}
+        {{#if cancelled}}
+            <div class="ui yellow button upload-control rightButton">
+                <i class="icon stop"></i>
+                <span>Cancelled</span>
+            </div>
+        {{else}}
+            {{#if waiting}}
+                {{#if removeFromQueue}}
+                    <div type="submit" class="ui red button upload-control remove rightButton">
+                        <i class="trash icon"></i>
+                        <span>Remove</span>
+                    </div>
+                {{else}}
+                    <div type="submit" class="ui button primary upload-control start rightButton">
+                        <i class="upload icon"></i>
+                        <span>Upload</span>
+                    </div>
+                {{/if}}
+            {{else}}
+                <div class="ui green button upload-control rightButton">
+                    <i class="icon thumbs up"></i>
+                    Done
+                </div>
+            {{/if}}
+        {{/if}}
+    {{else}}
+        <div class="ui yellow button upload-control cancel rightButton">
+            <i class="icon stop"></i>
+            <span>Cancel</span>
+        </div>
+    {{/if}}
+</template>

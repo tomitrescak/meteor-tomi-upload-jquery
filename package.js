@@ -23,6 +23,11 @@ Package.onUse(function(api) {
   api.addFiles([
     'upload_semantic_ui.html',
     'upload_semantic_ui.js',
+    'semanticUI/upload_semanticUI.html',
+    'semanticUI/upload_semanticUI.js',
+    'semanticUI/semanticUI_buttons.html',
+    'semanticUI/semanticUI_buttons.js',
+    'upload_semantic_ui.js',
     'bootstrap/bootstrap.css',
     'bootstrap/bootstrap_buttons.html',
     'bootstrap/bootstrap_buttons.js',
