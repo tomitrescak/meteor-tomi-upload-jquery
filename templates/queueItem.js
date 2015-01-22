@@ -1,6 +1,9 @@
-Template['bootstrap_queue_item'].helpers({
+Template['queueItem'].helpers({
+  'class': function(what) {
+    return Uploader.UI[this.type][what] ;
+  },
   'infoLabel': function() {
-    var progress = this.parent.queue[this.item.name].get();
+    var progress = this.uploadContext.queue[this.item.name].get();
     return progress.running ?
       Uploader.formatProgress(this.item.name, progress.progress, progress.bitrate) :
       (this.item.name + '&nbsp;<span style="font-size: smaller; color: grey">' + bytesToSize(this.item.size) + '</span>');
@@ -9,14 +12,14 @@ Template['bootstrap_queue_item'].helpers({
     var that = this;
     return {
       'idle': function () {
-        return !that.parent.queue[that.item.name].get().running ||
-          that.parent.queue[that.item.name].get().progress === 100;
+        return !that.uploadContext.queue[that.item.name].get().running ||
+          that.uploadContext.queue[that.item.name].get().progress === 100;
       },
       'cancelled': function () {
-        return that.parent.queue[that.item.name].get().cancelled;
+        return that.uploadContext.queue[that.item.name].get().cancelled;
       },
       'waiting': function () {
-        return that.parent.queue[that.item.name].get().progress !== 100;
+        return that.uploadContext.queue[that.item.name].get().progress !== 100;
       },
       'removeFromQueue': function() {
         return true;
@@ -24,6 +27,6 @@ Template['bootstrap_queue_item'].helpers({
     }
   },
   'progress': function() {
-    return 'width:' + this.parent.queue[this.item.name].get().progress + '%';
+    return 'width:' + this.uploadContext.queue[this.item.name].get().progress + '%';
   }
 });

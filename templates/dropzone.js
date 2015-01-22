@@ -1,22 +1,30 @@
 // each upload_multiple template instance holds its own local collection of files list
 Template['dropzone'].created = function () {
   // start automatically on drop
-  this.data.autoStart = true;
+  Template.instance().autoStart = true;
 
   // init the control
-  Uploader.init.call(this);
+  Uploader.init(this);
 };
 
 // each upload_multiple template instance holds its own local collection of files list
 Template['dropzone'].helpers({
   'infoLabel': function() {
-    var progress = this.globalInfo.get();
+    var progress = Template.instance().globalInfo.get();
 
     // we may have not yet selected a file
     if (progress.progress == 0 || progress.progress == 100) {
       return "Drop files here";
     }
     return progress.progress + "%";
+  },
+  'submitData': function() {
+    if (this.formData) {
+      this.formData['contentType'] = this.contentType;
+    } else {
+      this.formData = {contentType: this.contentType};
+    }
+    return JSON.stringify(this.formData);
   }
 });
 

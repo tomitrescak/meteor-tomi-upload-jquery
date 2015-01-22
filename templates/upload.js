@@ -1,42 +1,42 @@
 // each upload_multiple template instance holds its own local collection of files list
-Template['upload_bootstrap'].created = function () {
-  Uploader.init.call(this);
+Template['upload'].created = function () {
+  Uploader.init(this);
 };
 
-Template['upload_bootstrap'].helpers({
+Template['upload'].helpers({
+  'class': function(where) {
+    return Uploader.UI[this.type][where];
+  },
+  'uploadContext': function() {
+    return Template.instance();
+  },
   'submitData': function() {
     if (this.formData) {
       this.formData['contentType'] = this.contentType;
     } else {
-      this.formData = { contentType: this.contentType };
+      this.formData = {contentType: this.contentType};
     }
     return JSON.stringify(this.formData);
   },
   'infoLabel': function() {
-    if (!this.globalInfo) {
-      return;
-    }
+    var instance = Template.instance();
 
-    var progress = this.globalInfo.get();
-
+    var progress = instance.globalInfo.get();
+    var info = instance.info.get()
     // we may have not yet selected a file
-    if (!this.info.get()) {
+    if (!instance.info.get()) {
       return "";
     }
 
     return progress.running ?
-      Uploader.formatProgress(this.info.get().name, progress.progress, progress.bitrate) :
-      (this.info.get().name + '&nbsp;<span style="font-size: smaller; color: grey">' + bytesToSize(this.info.get().size) + '</span>');
+      Uploader.formatProgress(info.name, progress.progress, progress.bitrate) :
+      (info.name + '&nbsp;<span style="font-size: smaller; color: #333">' + bytesToSize(info.size) + '</span>');
   },
   'progress': function() {
-    if (!this.globalInfo) {
-      return;
-    }
-    return 'width:' + this.globalInfo.get().progress + '%';
-
+    return 'width:' + Template.instance().globalInfo.get().progress + '%';
   },
   buttonState: function() {
-    var that = this;
+    var that = Template.instance();
     return {
       'idle': function () {
         return !that.globalInfo.get().running;
@@ -53,20 +53,14 @@ Template['upload_bootstrap'].helpers({
     }
   },
   'queueItems': function() {
-    if (!this.queueView) {
-      return;
-    }
-    return this.queueView.get();
+    return Template.instance().queueView.get();
   },
   'showQueue': function() {
-    if (!this.queueView) {
-      return;
-    }
-    return this.queueView.get().length > 1;
+    return Template.instance().queueView.get().length > 1;
   }
 });
 
-Template['upload_bootstrap'].rendered = function () {
+Template['upload'].rendered = function () {
   Uploader.render.call(this);
 };
 

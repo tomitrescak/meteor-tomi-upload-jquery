@@ -34,3 +34,44 @@
     height: 100%;
   }
 }
+
+/* SEMANTIC UI */
+
+.progressOuter {
+    display: table-cell; width: 100%; vertical-align: top
+}
+
+.progressInner {
+    height: 33px;
+}
+
+.semantic.progressInner {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(39, 41, 43, 0.15);
+    box-shadow: none;
+    display: block;
+    max-width: 100%;
+    padding: 0.2857em;
+    position: relative;
+}
+
+.semantic.progressInner .bar {
+    animation: 0s ease 0s normal none 1 running none !important;
+    background-color: #5bbd72 !important;
+    height: 1.75em;
+    background: none repeat scroll 0 0 #888;
+    border-radius: 0.2857rem;
+    display: block;
+    line-height: 1;
+    min-width: 2em;
+    position: relative;
+    transition: width 0.3s ease 0s, background-color 0.3s ease 0s;
+    width: 0;
+}
+
+.rightButton {
+    float: right;
+    margin-left: 3px!important;
+}
+
+

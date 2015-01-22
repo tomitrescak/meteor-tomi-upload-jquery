@@ -1,0 +1,19 @@
+<template name="queueItem">
+    <div class="uploadPanel" style="margin-top: 6px">
+        <div class="{{ class 'progressOuter'}}">
+            <div class="{{ class 'progressInner' }}">
+                <div class="{{ class 'progressBar' }}"
+                     role="progressbar"
+                     aria-valuemin="0"
+                     aria-valuemax="100" style="{{ progress }}">
+                    &nbsp;
+                </div>
+                <div class="progress-label">
+                    {{{ infoLabel }}}
+                </div>
+            </div>
+        </div>
+
+        {{> buttons state=buttonState type=type uploadContext=uploadContext name=this.item.name}}
+    </div>
+</template>

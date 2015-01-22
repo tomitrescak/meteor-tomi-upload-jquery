@@ -1,0 +1,34 @@
+<template name="buttons">
+    {{#if idle}}
+        {{#if cancelled}}
+            <div class="{{ class 'cancelledButton' }}">
+                <i class="{{ class 'cancelledButtonIcon' }}"></i>
+                <span>Cancelled</span>
+            </div>
+        {{else}}
+            {{#if waiting}}
+                {{#if removeFromQueue}}
+                    <div type="submit" class="{{ class 'removeButton' }}">
+                        <i class="{{ class 'removeButtonIcon' }}"></i>
+                        <span>Remove</span>
+                    </div>
+                {{else}}
+                    <div type="submit" class="{{ class 'startButton' }}">
+                        <i class="{{ class 'startButtonIcon' }}"></i>
+                        <span>Upload</span>
+                    </div>
+                {{/if}}
+            {{else}}
+                <div class="{{ class 'doneButton' }}">
+                    <i class="{{ class 'doneButtonIcon' }}"></i>
+                    Done
+                </div>
+            {{/if}}
+        {{/if}}
+    {{else}}
+        <div class="{{ class 'cancelButton' }}">
+            <i class="{{ class 'cancelButtonIcon' }}"></i>
+            <span>Cancel</span>
+        </div>
+    {{/if}}
+</template>

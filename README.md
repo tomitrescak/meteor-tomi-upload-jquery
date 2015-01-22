@@ -6,6 +6,12 @@ For the full documentation and instructions on use go to [https://github.com/tom
 
 ####Version Info
 
+* 2.0.0 - Big update
+    * Full support for Semantic UI
+    * Breaking change in 'getFileInfo', 'getDirectory' and 'finished' callbacks, when fileInfo is now passed in the callback. See the documentation.
+    * Update the DEMO application to showcase all current possibilities
+    * Possibility to automatically create directories on server
+    * Possibility to delete files on server with UploadServer.delete(path)
 * 1.1.1 - Bugfixed 'multiple' parameter
 * 1.1.0 - Added the drag and drop zone support
 * 1.0.7 - Bugfixes

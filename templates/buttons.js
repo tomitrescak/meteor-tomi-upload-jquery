@@ -1,4 +1,7 @@
-Template['semanticUI_buttons'].helpers({
+Template['buttons'].helpers({
+  'class': function(what) {
+    return Uploader.UI[this.type][what] ;
+  },
   'idle': function() {
     return this.state.idle();
   },
@@ -13,7 +16,7 @@ Template['semanticUI_buttons'].helpers({
   }
 });
 
-Template['semanticUI_buttons'].events({
+Template['buttons'].events({
   'click .cancel': function (e) {
     Uploader.cancelUpload.call(this.uploadContext, e, this.name);
   },

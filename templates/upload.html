@@ -1,0 +1,49 @@
+<template name="upload_bootstrap">
+    {{> upload type='bootstrap' formData=formData fileTypes=fileTypes multiple=multiple }}
+</template>
+
+<template name="upload_semanticUI">
+    {{> upload type='semanticUI' formData=formData fileTypes=fileTypes multiple=multiple }}
+</template>
+
+<template name="upload">
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="uploadPanel">
+            <!-- The fileinput-button span is used to style the file input field as button -->
+
+            <div class="{{ class 'upload' }}">
+                Browse&hellip; <input type="file"
+                                      class="jqUploadclass"
+                                      multiple="{{ multiple }}"
+                                      data-form-data='{{ submitData }}'
+                                      accept="{{ fileTypes }}">
+            </div>
+
+            <div class="{{ class 'progressOuter'}}">
+                <div class="{{ class 'progressInner' }}">
+                    <div class="{{ class 'progressBar' }}"
+                         role="progressbar"
+                         aria-valuemin="0"
+                         aria-valuemax="100" style="{{ progress }}">
+                        &nbsp;
+                    </div>
+                    <div class="progress-label">
+                        {{{ infoLabel }}}
+                    </div>
+                </div>
+            </div>
+
+            {{> buttons type=type state=buttonState uploadContext=uploadContext}}
+        </div>
+        {{#if showQueue }}
+            <div class="panel panel-default" style="margin-top: 1px; background: #efefef">
+                <div class="panel-body">
+                    {{#each queueItems }}
+                        {{> queueItem type=../type uploadContext=uploadContext item=this }}
+                    {{/each}}
+                </div>
+            </div>
+        {{/if}}
+    </form>
+</template>
