@@ -16,6 +16,7 @@
     max-width: 100%;
     padding: 0.2857em;
     position: relative;
+    height: 36px;
 }
 
 .semantic.progressInner .bar {

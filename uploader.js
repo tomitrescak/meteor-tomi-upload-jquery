@@ -9,7 +9,7 @@ Uploader = {
       removeButtonIcon: 'glyphicon glyphicon-remove',
       startButton: 'btn btn-info upload-control start',
       startButtonIcon: 'glyphicon glyphicon-upload',
-      doneButton: 'btn btn-default upload-control',
+      doneButton: 'btn btn-default upload-control done',
       doneButtonIcon: 'glyphicon glyphicon-ok',
       cancelButton: 'btn btn-danger upload-control cancel',
       cancelButtonIcon: 'glyphicon glyphicon-stop',
@@ -25,7 +25,7 @@ Uploader = {
       removeButtonIcon: 'trash icon',
       startButton: 'ui button primary upload-control start rightButton',
       startButtonIcon: 'upload icon',
-      doneButton: 'ui green button upload-control rightButton',
+      doneButton: 'ui green button upload-control rightButton done',
       doneButtonIcon: 'icon thumbs up',
       cancelButton: 'ui yellow button upload-control cancel rightButton',
       cancelButtonIcon: 'icon stop',
@@ -107,6 +107,11 @@ Uploader = {
 
     // update name
     Uploader.createName(this);
+  },
+  reset: function(e) {
+    e.preventDefault();
+    this.globalInfo.set({running: false, cancelled: false, progress: 0, bitrate: 0});
+    this.info.set("");
   },
   cancelUpload: function (e, name) {
     e.preventDefault();

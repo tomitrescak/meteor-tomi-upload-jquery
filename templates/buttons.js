@@ -25,5 +25,8 @@ Template['buttons'].events({
   },
   'click .remove': function (e) {
     Uploader.removeFromQueue.call(this.uploadContext, e, this.name);
+  },
+  'click .done': function(e) {
+    Uploader.reset.call(this.uploadContext, e);
   }
 });
