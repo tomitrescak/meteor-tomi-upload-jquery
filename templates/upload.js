@@ -16,7 +16,7 @@ Template['upload'].helpers({
     } else {
       this.formData = {contentType: this.contentType};
     }
-    return JSON.stringify(this.formData);
+    return typeof this.formData == 'string' ? this.formData : JSON.stringify(this.formData);
   },
   'infoLabel': function() {
     var instance = Template.instance();
