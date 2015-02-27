@@ -146,13 +146,15 @@ Uploader = {
     data.globalInfo = new ReactiveVar({running: false, progress: 0, bitrate: 0});
   },
   render: function () {
-    // this.data holds the template context (arguments supplied to the template in HTML)
+    // template context is the template instance itself
     var templateContext = this;
     templateContext.progressBar = this.$('.progress-bar');
     templateContext.progressLabel = this.$('.progress-label');
     templateContext.uploadControl = this.$('.jqUploadclass');
     templateContext.dropZone = this.$('.jqDropZone');
 
+    // this.data holds the template context (arguments supplied to the template in HTML)
+    var dataContext = this.data;
 
     // attach the context to the form object (so that we can access it in the callbacks such as add() etc.)
     this.find('form').uploadContext = templateContext;
@@ -165,6 +167,13 @@ Uploader = {
       dropZone: templateContext.dropZone,
       add: function (e, data) {
         console.log('render.add ');
+
+        // validate before adding
+        if (dataContext.callbacks != null &&
+            dataContext.callbacks.validate != null &&
+           !dataContext.callbacks.validate(data.files)) {
+          return;
+        }
 
         // update the queue collection, so that the ui gets updated
         $.each(data.files, function (index, file) {
@@ -194,6 +203,12 @@ Uploader = {
 
         $.each(data.result.files, function (index, file) {
           Uploader.finished(index, file, templateContext);
+
+          // validate before adding
+          if (dataContext.callbacks != null &&
+              dataContext.callbacks.finished != null) {
+            dataContext.callbacks.finished(index, file, templateContext);
+          }
         });
       },
       fail: function (e, data) {
