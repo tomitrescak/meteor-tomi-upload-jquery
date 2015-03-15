@@ -1,9 +1,9 @@
 <template name="upload_bootstrap">
-    {{> upload type='bootstrap' formData=formData fileTypes=fileTypes multiple=multiple callbacks=callbacks }}
+    {{> upload type='bootstrap' formData=formData fileTypes=fileTypes multiple=multiple callbacks=callbacks autoStart=autoStart }}
 </template>
 
 <template name="upload_semanticUI">
-    {{> upload type='semanticUI' formData=formData fileTypes=fileTypes multiple=multiple callbacks=callbacks }}
+    {{> upload type='semanticUI' formData=formData fileTypes=fileTypes multiple=multiple callbacks=callbacks autoStart=autoStart }}
 </template>
 
 <template name="upload">
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            {{> buttons type=type state=buttonState uploadContext=uploadContext}}
+            {{> buttons type=type state=buttonState uploadContext=uploadContext autoStart=autoStart}}
         </div>
         {{#if showQueue }}
             <div class="panel panel-default" style="margin-top: 1px; background: #efefef">

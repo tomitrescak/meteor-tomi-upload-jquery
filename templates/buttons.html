@@ -13,10 +13,12 @@
                         <span>Remove</span>
                     </div>
                 {{else}}
-                    <div type="submit" class="{{ class 'startButton' }}">
-                        <i class="{{ class 'startButtonIcon' }}"></i>
-                        <span>Upload</span>
-                    </div>
+                    {{#unless autoStart}}
+                        <div type="submit" class="{{ class 'startButton' }}">
+                            <i class="{{ class 'startButtonIcon' }}"></i>
+                            <span>Upload</span>
+                        </div>
+                    {{/unless}}
                 {{/if}}
             {{else}}
                 <div class="{{ class 'doneButton' }}">

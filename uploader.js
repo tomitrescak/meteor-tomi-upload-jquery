@@ -66,6 +66,10 @@ Uploader = {
       data.jqXHR = data.submit()
         .done(function (data, textStatus, jqXHR) {
           console.log('data.sumbit.done: textStatus= ' + textStatus);
+
+          if (Uploader.status) {
+            Uploader.status(false, data, textStatus, jqXHR);
+          }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
           if (jqXHR.statusText === 'abort') {
@@ -79,6 +83,10 @@ Uploader = {
               size: 0
             })
           }
+          if (Uploader.status) {
+            Uploader.status(true, data, textStatus, jqXHR);
+          }
+
           console.log('data.sumbit.fail: ' + jqXHR.responseText + ' ' + jqXHR.status + ' ' + jqXHR.statusText);
         })
         .always(function (data, textStatus, jqXHR) {
@@ -204,7 +212,7 @@ Uploader = {
         $.each(data.result.files, function (index, file) {
           Uploader.finished(index, file, templateContext);
 
-          // validate before adding
+          // notify user
           if (dataContext.callbacks != null &&
               dataContext.callbacks.finished != null) {
             dataContext.callbacks.finished(index, file, templateContext);
@@ -249,8 +257,8 @@ Uploader = {
         });
       }
     })
-      .prop('disabled', !$.support.fileInput)
-      .parent().addClass($.support.fileInput ? undefined : 'disabled');
+      .prop('disabled', ($.support != null && $.support.fileInput != null) ? !$.support.fileInput : false)
+      .parent().addClass(($.support != null && $.support.fileInput != null && !$.support.fileInput) ? 'disabled' : undefined);
   },
   finished: function () {
   }

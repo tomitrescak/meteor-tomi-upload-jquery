@@ -1,6 +1,11 @@
 // each upload_multiple template instance holds its own local collection of files list
 Template['upload'].created = function () {
   Uploader.init(this);
+
+  // copy values to context
+  if (this.data) {
+    this.autoStart = this.data.autoStart;
+  }
 };
 
 Template['upload'].helpers({
