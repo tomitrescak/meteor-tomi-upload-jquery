@@ -183,6 +183,10 @@ Uploader = {
           return;
         }
 
+        // adding file will clear the queue
+        templateContext.queue = [];
+        templateContext.queueView.set([]);
+
         // update the queue collection, so that the ui gets updated
         $.each(data.files, function (index, file) {
           var item = file;
