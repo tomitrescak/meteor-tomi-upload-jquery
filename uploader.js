@@ -65,6 +65,9 @@ Uploader = {
 
       data.jqXHR = data.submit()
         .done(function (data, textStatus, jqXHR) {
+          // remove from queue
+          that.queue.splice(that.queue.indexOf(queueItem), 1);
+
           console.log('data.sumbit.done: textStatus= ' + textStatus);
 
           if (Uploader.status) {
@@ -72,6 +75,9 @@ Uploader = {
           }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
+          // remove from queue
+          that.queue.splice(that.queue.indexOf(queueItem), 1);
+
           if (jqXHR.statusText === 'abort') {
             that.info.set({
               name: 'Aborted',
@@ -184,8 +190,10 @@ Uploader = {
         }
 
         // adding file will clear the queue
-        templateContext.queue = [];
-        templateContext.queueView.set([]);
+        if (!templateContext.data.multiple) {
+          templateContext.queue = [];
+          templateContext.queueView.set([]);
+        }
 
         // update the queue collection, so that the ui gets updated
         $.each(data.files, function (index, file) {
