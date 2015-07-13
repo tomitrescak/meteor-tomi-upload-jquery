@@ -3,34 +3,34 @@
         {{#if cancelled}}
             <div class="{{ class 'cancelledButton' }}">
                 <i class="{{ class 'cancelledButtonIcon' }}"></i>
-                <span>Cancelled</span>
+                <span>{{ ut9n 'cancelled'}}</span>
             </div>
         {{else}}
             {{#if waiting}}
                 {{#if removeFromQueue}}
                     <div type="submit" class="{{ class 'removeButton' }}">
                         <i class="{{ class 'removeButtonIcon' }}"></i>
-                        <span>Remove</span>
+                        <span>{{ ut9n 'remove'}}</span>
                     </div>
                 {{else}}
                     {{#unless autoStart}}
                         <div type="submit" class="{{ class 'startButton' }}">
                             <i class="{{ class 'startButtonIcon' }}"></i>
-                            <span>Upload</span>
+                            <span>{{ ut9n 'upload'}}</span>
                         </div>
                     {{/unless}}
                 {{/if}}
             {{else}}
                 <div class="{{ class 'doneButton' }}">
                     <i class="{{ class 'doneButtonIcon' }}"></i>
-                    Done
+                    {{ ut9n 'done'}}
                 </div>
             {{/if}}
         {{/if}}
     {{else}}
         <div class="{{ class 'cancelButton' }}">
             <i class="{{ class 'cancelButtonIcon' }}"></i>
-            <span>Cancel</span>
+            <span>{{ ut9n 'cancel'}}</span>
         </div>
     {{/if}}
 </template>

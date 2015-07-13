@@ -1,4 +1,19 @@
 Uploader = {
+  logLevels: { "debug": 0, "error": 1 },
+  logLevel: 1,
+  log: function(level, text) {
+    if (level >= Uploader.logLevel) {
+      console.log(text);
+    }
+  },
+  localisation: {
+    browse: "Browse",
+    cancelled: "Cancelled",
+    remove: "Remove",
+    upload: "Upload",
+    done: "Done",
+    cancel: "Cancel"
+  },
   UI: {
     bootstrap: {
       upload: 'btn btn-primary btn-file upload-control',
@@ -68,7 +83,7 @@ Uploader = {
           // remove from queue
           that.queue.splice(that.queue.indexOf(queueItem), 1);
 
-          console.log('data.sumbit.done: textStatus= ' + textStatus);
+          Uploader.log(Uploader.logLevels.debug, 'data.sumbit.done: textStatus= ' + textStatus);
 
           if (Uploader.status) {
             Uploader.status(false, data, textStatus, jqXHR);
@@ -93,10 +108,10 @@ Uploader = {
             Uploader.status(true, data, textStatus, jqXHR);
           }
 
-          console.log('data.sumbit.fail: ' + jqXHR.responseText + ' ' + jqXHR.status + ' ' + jqXHR.statusText);
+          Uploader.log(Uploader.logLevels.debug, 'data.sumbit.fail: ' + jqXHR.responseText + ' ' + jqXHR.status + ' ' + jqXHR.statusText);
         })
         .always(function (data, textStatus, jqXHR) {
-          console.log('data.sumbit.always:  textStatus= ' + textStatus);
+          Uploader.log(Uploader.logLevels.debug, 'data.sumbit.always:  textStatus= ' + textStatus);
         });
     });
   },
@@ -180,17 +195,19 @@ Uploader = {
       dataType: 'json',
       dropZone: templateContext.dropZone,
       add: function (e, data) {
-        console.log('render.add ');
+        Uploader.log(Uploader.logLevels.debug, 'render.add ');
 
         // validate before adding
-        if (dataContext.callbacks != null &&
+        if (dataContext != null &&
+            dataContext.callbacks != null &&
             dataContext.callbacks.validate != null &&
            !dataContext.callbacks.validate(data.files)) {
           return;
         }
 
         // adding file will clear the queue
-        if (!templateContext.data.multiple) {
+        if (dataContext == null ||
+           !dataContext.multiple) {
           templateContext.queue = [];
           templateContext.queueView.set([]);
         }
@@ -217,7 +234,7 @@ Uploader = {
 
       }, // end of add callback handler
       done: function (e, data) {
-        console.log('render.done ');
+        Uploader.log(Uploader.logLevels.debug, 'render.done ');
 
         templateContext.globalInfo.set({running: false, progress: 100});
 
@@ -232,7 +249,7 @@ Uploader = {
         });
       },
       fail: function (e, data) {
-        console.log('render.fail ');
+        Uploader.log(Uploader.logLevels.debug, 'render.fail ');
       },
       progress: function (e, data) {
         // file progress is displayed only when single file is uploaded
@@ -254,7 +271,7 @@ Uploader = {
       },
       drop: function (e, data) { // called when files are dropped onto ui
         $.each(data.files, function (index, file) {
-          console.log("render.drop file: " + file.name);
+          Uploader.log(Uploader.logLevels.debug, "render.drop file: " + file.name);
         });
       },
       change: function (e, data) { // called when input selection changes (file selected)
@@ -265,7 +282,7 @@ Uploader = {
         templateContext.globalInfo.set({running: false, progress: 0});
 
         $.each(data.files, function (index, file) {
-          console.log('render.change file: ' + file.name);
+          Uploader.log(Uploader.logLevels.debug, 'render.change file: ' + file.name);
         });
       }
     })
