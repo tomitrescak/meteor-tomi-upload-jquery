@@ -242,7 +242,7 @@ Uploader = {
           Uploader.finished(index, file, templateContext);
 
           // notify user
-          if (dataContext.callbacks != null &&
+          if (dataContext && dataContext.callbacks != null &&
               dataContext.callbacks.finished != null) {
             dataContext.callbacks.finished(index, file, templateContext);
           }
