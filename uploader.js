@@ -1,5 +1,8 @@
 Uploader = {
-  logLevels: { "debug": 0, "error": 1 },
+  logLevels: {
+    "debug": 0,
+    "error": 1
+  },
   logLevel: 1,
   log: function(level, text) {
     if (level >= Uploader.logLevel) {
@@ -48,7 +51,7 @@ Uploader = {
     }
   },
   uploadUrl: '/upload',
-  createName: function (templateContext) {
+  createName: function(templateContext) {
     if (templateContext.queue.length == 1) {
       var file = templateContext.queue[0];
       templateContext.info.set(file);
@@ -66,20 +69,20 @@ Uploader = {
    * @param e
    * @param {string} name Name of the file in the queue that we want to upload
    */
-  startUpload: function (e, name) {
+  startUpload: function(e, name) {
     if (e) e.preventDefault();
 
     if (this.queue.length == 0) return;
 
     var that = this;
 
-    $.each(this.queue, function (index, queueItem) {
+    $.each(this.queue, function(index, queueItem) {
 
       var data = queueItem.data;
       if (name && data.files[0].name !== name) return true;
 
       data.jqXHR = data.submit()
-        .done(function (data, textStatus, jqXHR) {
+        .done(function(data, textStatus, jqXHR) {
           // remove from queue
           that.queue.splice(that.queue.indexOf(queueItem), 1);
 
@@ -89,7 +92,7 @@ Uploader = {
             Uploader.status(false, data, textStatus, jqXHR);
           }
         })
-        .fail(function (jqXHR, textStatus, errorThrown) {
+        .fail(function(jqXHR, textStatus, errorThrown) {
           // remove from queue
           that.queue.splice(that.queue.indexOf(queueItem), 1);
 
@@ -110,20 +113,20 @@ Uploader = {
 
           Uploader.log(Uploader.logLevels.debug, 'data.sumbit.fail: ' + jqXHR.responseText + ' ' + jqXHR.status + ' ' + jqXHR.statusText);
         })
-        .always(function (data, textStatus, jqXHR) {
+        .always(function(data, textStatus, jqXHR) {
           Uploader.log(Uploader.logLevels.debug, 'data.sumbit.always:  textStatus= ' + textStatus);
         });
     });
   },
-  formatProgress: function (file, progress, bitrate) {
+  formatProgress: function(file, progress, bitrate) {
     return progress + "%&nbsp;of&nbsp;" + file + "&nbsp;<span style='font-size:smaller'>@&nbsp;" + bytesToSize(bitrate) + "&nbsp;/&nbsp;sec</span>"
   },
-  removeFromQueue: function (e, name) {
+  removeFromQueue: function(e, name) {
     e.preventDefault();
 
     // remove from data queue
     var that = this;
-    $.each(this.queue, function (index, item) {
+    $.each(this.queue, function(index, item) {
       // skip all with different name
       if (item.name === name) {
         that.queue.splice(index, 1);
@@ -139,14 +142,19 @@ Uploader = {
   },
   reset: function(e) {
     e.preventDefault();
-    this.globalInfo.set({running: false, cancelled: false, progress: 0, bitrate: 0});
+    this.globalInfo.set({
+      running: false,
+      cancelled: false,
+      progress: 0,
+      bitrate: 0
+    });
     this.info.set("");
   },
-  cancelUpload: function (e, name) {
+  cancelUpload: function(e, name) {
     e.preventDefault();
 
     var that = this;
-    $.each(this.queue, function (index, queueItem) {
+    $.each(this.queue, function(index, queueItem) {
       // skip all with different name
       if (name && queueItem.name !== name) return true;
 
@@ -155,16 +163,26 @@ Uploader = {
         queueItem.data.jqXHR.abort();
 
         // set status to redraw interface
-        that.queue[queueItem.name].set({running: false, cancelled: true, progress: 0, bitrate: 0});
+        that.queue[queueItem.name].set({
+          running: false,
+          cancelled: true,
+          progress: 0,
+          bitrate: 0
+        });
       }
     });
 
     // mark global as cancelled
     if (!name) {
-      this.globalInfo.set({running: false, cancelled: true, progress: 0, bitrate: 0})
+      this.globalInfo.set({
+        running: false,
+        cancelled: true,
+        progress: 0,
+        bitrate: 0
+      })
     }
   },
-  init: function (data) {
+  init: function(data) {
     // this is used to view the queue in the interface
     data.queueView = new ReactiveVar([]);
     // this holds all the data about the queue
@@ -172,9 +190,13 @@ Uploader = {
     // info about the global item being processed
     data.info = new ReactiveVar;
     // info about global progress
-    data.globalInfo = new ReactiveVar({running: false, progress: 0, bitrate: 0});
+    data.globalInfo = new ReactiveVar({
+      running: false,
+      progress: 0,
+      bitrate: 0
+    });
   },
-  render: function () {
+  render: function() {
     // template context is the template instance itself
     var templateContext = this;
     templateContext.progressBar = this.$('.progress-bar');
@@ -191,109 +213,125 @@ Uploader = {
     // set the upload related callbacks for HTML node that has jqUploadclass specified for it
     // Example html node: <input type="file" class="jqUploadclass" />
     templateContext.uploadControl.fileupload({
-      url: Uploader.uploadUrl,
-      dataType: 'json',
-      dropZone: templateContext.dropZone,
-      add: function (e, data) {
-        Uploader.log(Uploader.logLevels.debug, 'render.add ');
+        url: Uploader.uploadUrl,
+        dataType: 'json',
+        dropZone: templateContext.dropZone,
+        add: function(e, data) {
+          Uploader.log(Uploader.logLevels.debug, 'render.add ');
 
-        // validate before adding
-        if (dataContext != null &&
-            dataContext.callbacks != null &&
-            dataContext.callbacks.validate != null &&
-           !dataContext.callbacks.validate(data.files)) {
-          return;
-        }
+          // get dynamic formData
+          if (dataContext != null && dataContext.callbacks != null) {
 
-        // adding file will clear the queue
-        if (dataContext == null ||
-           !dataContext.multiple) {
-          templateContext.queue = [];
-          templateContext.queueView.set([]);
-        }
+            // form data
 
-        // update the queue collection, so that the ui gets updated
-        $.each(data.files, function (index, file) {
-          var item = file;
-          item.data = data;
-          templateContext.queue[file.name] = new ReactiveVar({running: false, progress: 0});
-          templateContext.queue.push(item);
-          templateContext.queue.size += parseInt(file.size);
-        });
+            if (dataContext.callbacks.formData != null) {
+              data.formData = dataContext.callbacks.formData();
+            }
 
-        // say name
-        Uploader.createName(templateContext);
-
-        // set template context
-        templateContext.queueView.set(templateContext.queue);
-
-        // we can automatically start the upload
-        if (templateContext.autoStart) {
-          Uploader.startUpload.call(templateContext);
-        }
-
-      }, // end of add callback handler
-      done: function (e, data) {
-        Uploader.log(Uploader.logLevels.debug, 'render.done ');
-
-        templateContext.globalInfo.set({running: false, progress: 100});
-
-        $.each(data.result.files, function (index, file) {
-          Uploader.finished(index, file, templateContext);
-
-          // notify user
-          if (dataContext.callbacks != null &&
-              dataContext.callbacks.finished != null) {
-            dataContext.callbacks.finished(index, file, templateContext);
+            // validate
+            if (dataContext.callbacks.validate != null &&
+              !dataContext.callbacks.validate(data.files)) {
+              return;
+            }
           }
-        });
-      },
-      fail: function (e, data) {
-        Uploader.log(Uploader.logLevels.debug, 'render.fail ');
-      },
-      progress: function (e, data) {
-        // file progress is displayed only when single file is uploaded
-        var fi = templateContext.queue[data.files[0].name];
-        if (fi) {
-          fi.set({
+
+          // adding file will clear the queue
+          if (dataContext == null ||
+            !dataContext.multiple) {
+            templateContext.queue = [];
+            templateContext.queueView.set([]);
+          }
+
+          // update the queue collection, so that the ui gets updated
+          $.each(data.files, function(index, file) {
+            var item = file;
+            item.data = data;
+            templateContext.queue[file.name] = new ReactiveVar({
+              running: false,
+              progress: 0
+            });
+            templateContext.queue.push(item);
+            templateContext.queue.size += parseInt(file.size);
+          });
+
+          // say name
+          Uploader.createName(templateContext);
+
+          // set template context
+          templateContext.queueView.set(templateContext.queue);
+
+          // we can automatically start the upload
+          if (templateContext.autoStart) {
+            Uploader.startUpload.call(templateContext);
+          }
+
+        }, // end of add callback handler
+        done: function(e, data) {
+          Uploader.log(Uploader.logLevels.debug, 'render.done ');
+
+          templateContext.globalInfo.set({
+            running: false,
+            progress: 100
+          });
+
+          $.each(data.result.files, function(index, file) {
+            Uploader.finished(index, file, templateContext);
+
+            // notify user
+            if (dataContext.callbacks != null &&
+              dataContext.callbacks.finished != null) {
+              dataContext.callbacks.finished(index, file, templateContext);
+            }
+          });
+        },
+        fail: function(e, data) {
+          Uploader.log(Uploader.logLevels.debug, 'render.fail ');
+        },
+        progress: function(e, data) {
+          // file progress is displayed only when single file is uploaded
+          var fi = templateContext.queue[data.files[0].name];
+          if (fi) {
+            fi.set({
+              running: true,
+              progress: parseInt(data.loaded / data.total * 100, 10),
+              bitrate: data.bitrate
+            });
+          }
+        },
+        progressall: function(e, data) {
+          templateContext.globalInfo.set({
             running: true,
             progress: parseInt(data.loaded / data.total * 100, 10),
             bitrate: data.bitrate
           });
-        }
-      },
-      progressall: function (e, data) {
-        templateContext.globalInfo.set({
-          running: true,
-          progress: parseInt(data.loaded / data.total * 100, 10),
-          bitrate: data.bitrate
-        });
-      },
-      drop: function (e, data) { // called when files are dropped onto ui
-        $.each(data.files, function (index, file) {
-          Uploader.log(Uploader.logLevels.debug, "render.drop file: " + file.name);
-        });
-      },
-      change: function (e, data) { // called when input selection changes (file selected)
-        // clear the queue, this is used to visualise all the data
-        templateContext.queue = [];
-        templateContext.queue.size = 0;
-        templateContext.progressBar.css('width', '0%');
-        templateContext.globalInfo.set({running: false, progress: 0});
+        },
+        drop: function(e, data) { // called when files are dropped onto ui
+          $.each(data.files, function(index, file) {
+            Uploader.log(Uploader.logLevels.debug, "render.drop file: " + file.name);
+          });
+        },
+        change: function(e, data) { // called when input selection changes (file selected)
+          // clear the queue, this is used to visualise all the data
+          templateContext.queue = [];
+          templateContext.queue.size = 0;
+          templateContext.progressBar.css('width', '0%');
+          templateContext.globalInfo.set({
+            running: false,
+            progress: 0
+          });
 
-        $.each(data.files, function (index, file) {
-          Uploader.log(Uploader.logLevels.debug, 'render.change file: ' + file.name);
-        });
-      }
-    })
+          $.each(data.files, function(index, file) {
+            Uploader.log(Uploader.logLevels.debug, 'render.change file: ' + file.name);
+          });
+        }
+      })
       .prop('disabled', ($.support != null && $.support.fileInput != null) ? !$.support.fileInput : false)
       .parent().addClass(($.support != null && $.support.fileInput != null && !$.support.fileInput) ? 'disabled' : undefined);
   },
-  finished: function () {
-  }
+  finished: function() {}
 }
 
-bytesToSize = function (bytes) {
+bytesToSize = function(bytes) {
   if (bytes == 0) return '0 Byte';
   var k = 1000;
   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
