@@ -2,7 +2,7 @@ This is a client interface package for the [Meteor Uploads](https://github.com/t
 
 Use via {{> upload_bootstrap}}
 
-For the full documentation and instructions on use go to [https://github.com/tomitrescak/meteor-uploads](https://github.com/tomitrescak/meteor-uploads).
+For the full documentation and instructions and **issues** on use go to [https://github.com/tomitrescak/meteor-uploads](https://github.com/tomitrescak/meteor-uploads).
 
 ####Version Info
 
