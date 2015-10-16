@@ -4,6 +4,8 @@ Use via {{> upload_bootstrap}}
 
 For the full documentation and instructions and **issues** on use go to [https://github.com/tomitrescak/meteor-uploads](https://github.com/tomitrescak/meteor-uploads).
 
+[![Meteor Icon](http://icon.meteor.com/package/tomi:upload-jquery)](https://atmospherejs.com/tomi/upload-jquery)
+
 ####Version Info
 
 * 2.0.0 - Big update
