@@ -2,6 +2,8 @@ This is a client interface package for the [Meteor Uploads](https://github.com/t
 
 Use via {{> upload_bootstrap}}
 
+If you are seeking for the comfort of this package but with uploads to S3, please go to: [https://github.com/tomitrescak/meteor-tomi-uploads-s3](https://github.com/tomitrescak/meteor-tomi-uploads-s3)
+
 For the full documentation and instructions and **issues** on use go to [https://github.com/tomitrescak/meteor-uploads](https://github.com/tomitrescak/meteor-uploads).
 
 [![Meteor Icon](http://icon.meteor.com/package/tomi:upload-jquery)](https://atmospherejs.com/tomi/upload-jquery)
