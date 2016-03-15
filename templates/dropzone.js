@@ -14,7 +14,7 @@ Template['dropzone'].helpers({
 
     // we may have not yet selected a file
     if (progress.progress == 0 || progress.progress == 100) {
-      return "Drop files here";
+      return Uploader.localisation.dropFiles;
     }
     return progress.progress + "%";
   },

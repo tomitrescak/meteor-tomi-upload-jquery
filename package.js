@@ -1,7 +1,7 @@
 Package.describe({
   name: 'tomi:upload-jquery',
   summary: 'Client template for uploads using "jquery-file-upload" from blueimp',
-  version: '2.2.0',
+  version: '2.2.3',
   git: 'https://github.com/tomitrescak/meteor-tomi-upload-jquery.git'
 });
 

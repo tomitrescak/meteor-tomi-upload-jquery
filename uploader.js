@@ -15,7 +15,8 @@ Uploader = {
     remove: "Remove",
     upload: "Upload",
     done: "Done",
-    cancel: "Cancel"
+    cancel: "Cancel",
+    dropFiles: "Drop files here"
   },
   UI: {
     bootstrap: {
@@ -278,7 +279,7 @@ Uploader = {
             Uploader.finished(index, file, templateContext);
 
             // notify user
-            if (dataContext.callbacks != null &&
+            if (dataContext != null && dataContext.callbacks != null &&
               dataContext.callbacks.finished != null) {
               dataContext.callbacks.finished(index, file, templateContext);
             }
