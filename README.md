@@ -10,6 +10,7 @@ For the full documentation and instructions and **issues** on use go to [https:/
 
 ####Version Info
 
+* 2.4.0 - Now fully compatible with Meteor 1.3
 * 2.0.0 - Big update
     * Full support for Semantic UI
     * Breaking change in 'getFileInfo', 'getDirectory' and 'finished' callbacks, when fileInfo is now passed in the callback. See the documentation.
