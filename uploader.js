@@ -82,6 +82,13 @@ Uploader = {
       var data = queueItem.data;
       if (name && data.files[0].name !== name) return true;
 
+      // get dynamic formData
+      if (that.data != null && that.data.callbacks != null) {
+        if (that.data.callbacks.formData != null) {
+          data.formData = that.data.callbacks.formData();
+        }
+      }
+
       data.jqXHR = data.submit()
         .done(function(data, textStatus, jqXHR) {
           // remove from queue
