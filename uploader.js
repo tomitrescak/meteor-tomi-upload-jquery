@@ -51,7 +51,7 @@ Uploader = {
       cancelledButton: 'ui yellow button upload-control rightButton'
     }
   },
-  uploadUrl: '/upload',
+  uploadUrl: '/upload/',
   createName: function(templateContext) {
     if (templateContext.queue.length == 1) {
       var file = templateContext.queue[0];
